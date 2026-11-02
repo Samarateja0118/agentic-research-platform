@@ -1,0 +1,323 @@
+{
+ "meta": {
+  "system": "single_agent",
+  "model": "qwen3-4b-instruct-2507-q4_k_m",
+  "label": "single agent, prompts v1",
+  "dataset": "evals/datasets/research.jsonl",
+  "dataset_digest": "6837ddd50bf8",
+  "prompt_version": "cd4663061d33",
+  "snapshot_digest": {
+   "github": "661874302f32",
+   "pypi": "1f3561e10128"
+  },
+  "created": "2026-11-02T23:45:38Z",
+  "prices_per_mtok": {
+   "claude-opus-5-5": [
+    4.0,
+    20.0
+   ],
+   "claude-sonnet-5-5": [
+    2.0,
+    10.0
+   ],
+   "claude-haiku-5-5": [
+    0.1,
+    0.5
+   ]
+  }
+ },
+ "summary": {
+  "n": 8,
+  "pass_rate": 1.0,
+  "check_fraction": 1.0,
+  "judge_mean": 5.0,
+  "judge_ge4": 1.0,
+  "errors": 0,
+  "mean_llm_calls": 2.2,
+  "mean_tool_calls": 1.5,
+  "tool_error_rate": 0.0,
+  "mean_input_tokens": 3417,
+  "mean_output_tokens": 110,
+  "mean_wall_s": 75.8,
+  "mean_cost_at_claude-haiku-5-5": 0.0004,
+  "mean_cost_at_claude-sonnet-5-5": 0.00793,
+  "pass_by_category": {
+   "compare": "2/2",
+   "lookup": "6/6"
+  }
+ },
+ "rows": [
+  {
+   "id": "q01",
+   "category": "lookup",
+   "hops": 1,
+   "system": "single_agent",
+   "answer": "The latest version of the rich package on PyPI is 15.0.0. It declares the MIT license.  \n\nANSWER: The latest version is 15.0.0, and the license is MIT.",
+   "error": null,
+   "wall_s": 33.6,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 1,
+   "tool_errors": 0,
+   "input_tokens": 2783,
+   "output_tokens": 69,
+   "cost_usd": 0.0,
+   "llm_ms": 32463.6,
+   "trace": "evals/traces/single-qwen3-4b/q01.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000313,
+   "cost_at_claude-sonnet-5-5": 0.006256,
+   "detail": {
+    "answer": "The latest version of the rich package on PyPI is 15.0.0. It declares the MIT license.  \n\nANSWER: The latest version is 15.0.0, and the license is MIT.",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 1,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant's answer correctly identifies the latest version as 15.0.0 and accurately states the license as MIT, matching the reference answer exactly.",
+    "judge_tokens": 310
+   }
+  },
+  {
+   "id": "q02",
+   "category": "lookup",
+   "hops": 1,
+   "system": "single_agent",
+   "answer": "The latest release of polars, version 2.1.0, requires Python version 3.11 or higher. This information is derived from the \"requires_python\" field in the PyPI package metadata.\n\nANSWER: 3.11",
+   "error": null,
+   "wall_s": 39.3,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 1,
+   "tool_errors": 0,
+   "input_tokens": 2768,
+   "output_tokens": 75,
+   "cost_usd": 0.0,
+   "llm_ms": 38087.2,
+   "trace": "evals/traces/single-qwen3-4b/q02.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000314,
+   "cost_at_claude-sonnet-5-5": 0.006286,
+   "detail": {
+    "answer": "The latest release of polars, version 2.1.0, requires Python version 3.11 or higher. This information is derived from the \"requires_python\" field in the PyPI package metadata.\n\nANSWER: 3.11",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 1,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies that polars version 2.1.0 requires Python 3.11 or higher, matching the reference answer exactly and citing the correct source.",
+    "judge_tokens": 316
+   }
+  },
+  {
+   "id": "q03",
+   "category": "lookup",
+   "hops": 1,
+   "system": "single_agent",
+   "answer": "The first release of ruff was uploaded to PyPI on 2022-08-27. This date is directly provided in the `first_release_date` field of the PyPI package metadata for ruff.\n\nANSWER: 2022-08-27",
+   "error": null,
+   "wall_s": 69.0,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 1,
+   "tool_errors": 0,
+   "input_tokens": 2744,
+   "output_tokens": 84,
+   "cost_usd": 0.0,
+   "llm_ms": 68043.0,
+   "trace": "evals/traces/single-qwen3-4b/q03.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000316,
+   "cost_at_claude-sonnet-5-5": 0.006328,
+   "detail": {
+    "answer": "The first release of ruff was uploaded to PyPI on 2022-08-27. This date is directly provided in the `first_release_date` field of the PyPI package metadata for ruff.\n\nANSWER: 2022-08-27",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 1,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the first release date of ruff as 2022-08-27, matching the reference answer exactly and providing a valid source citation.",
+    "judge_tokens": 334
+   }
+  },
+  {
+   "id": "q04",
+   "category": "lookup",
+   "hops": 1,
+   "system": "single_agent",
+   "answer": "Pydantic published 34 non-yanked releases (including pre-releases) on PyPI in calendar year 2024. This number is derived directly from the \"releases_per_year\" data for the year 2024 in the provided PyPI release history. The data includes both regular and pre-release versions, as specified in the query. The total count is explicitly listed as 34 for that year. \n\nANSWER: 34",
+   "error": null,
+   "wall_s": 84.1,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 1,
+   "tool_errors": 0,
+   "input_tokens": 4185,
+   "output_tokens": 130,
+   "cost_usd": 0.0,
+   "llm_ms": 83250.3,
+   "trace": "evals/traces/single-qwen3-4b/q04.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000483,
+   "cost_at_claude-sonnet-5-5": 0.00967,
+   "detail": {
+    "answer": "Pydantic published 34 non-yanked releases (including pre-releases) on PyPI in calendar year 2024. This number is derived directly from the \"releases_per_year\" data for the year 2024 in the provided PyPI release history. The data includes both regular and pre-release versions, as specified in the query. The total count is explicitly listed as 34 for that year. \n\nANSWER: 34",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 1,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the number of non-yanked releases as 34, including pre-releases, and accurately aligns with the reference answer.",
+    "judge_tokens": 371
+   }
+  },
+  {
+   "id": "q05",
+   "category": "lookup",
+   "hops": 1,
+   "system": "single_agent",
+   "answer": "The latest release of httpx, version 0.28.1, declares the following runtime dependencies (excluding optional extras): anyio, certifi, httpcore==1.*, and idna. These dependencies are consistent across both the package metadata and the specific version details. No optional extras are listed, so all dependencies are considered runtime. \n\nANSWER: The runtime dependencies are anyio, certifi, httpcore==1.*, and idna.",
+   "error": null,
+   "wall_s": 80.4,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 3,
+   "tool_calls": 2,
+   "tool_errors": 0,
+   "input_tokens": 4371,
+   "output_tokens": 148,
+   "cost_usd": 0.0,
+   "llm_ms": 79380.8,
+   "trace": "evals/traces/single-qwen3-4b/q05.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000511,
+   "cost_at_claude-sonnet-5-5": 0.010222,
+   "detail": {
+    "answer": "The latest release of httpx, version 0.28.1, declares the following runtime dependencies (excluding optional extras): anyio, certifi, httpcore==1.*, and idna. These dependencies are consistent across both the package metadata and the specific version details. No optional extras are listed, so all dependencies are considered runtime. \n\nANSWER: The runtime dependencies are anyio, certifi, httpcore==1.*, and idna.",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 2,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies all runtime dependencies as specified in the reference answer, including the exact version constraint for httpcore, which is consistent with the reference and the context provided.",
+    "judge_tokens": 366
+   }
+  },
+  {
+   "id": "q06",
+   "category": "lookup",
+   "hops": 1,
+   "system": "single_agent",
+   "answer": "No, the latest release of typer (version 0.27.3) does not declare a runtime dependency on click. The dependencies listed are shellingham, rich, annotated-doc, and colorama.  \nANSWER: No, 0.27.3",
+   "error": null,
+   "wall_s": 110.6,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 3,
+   "tool_calls": 2,
+   "tool_errors": 0,
+   "input_tokens": 4472,
+   "output_tokens": 113,
+   "cost_usd": 0.0,
+   "llm_ms": 109435.0,
+   "trace": "evals/traces/single-qwen3-4b/q06.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000504,
+   "cost_at_claude-sonnet-5-5": 0.010074,
+   "detail": {
+    "answer": "No, the latest release of typer (version 0.27.3) does not declare a runtime dependency on click. The dependencies listed are shellingham, rich, annotated-doc, and colorama.  \nANSWER: No, 0.27.3",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 2,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies that typer 0.27.3 does not have a runtime dependency on click, matches the reference answer in both conclusion and version, and provides accurate additional detail about dependencies.",
+    "judge_tokens": 340
+   }
+  },
+  {
+   "id": "q07",
+   "category": "compare",
+   "hops": 2,
+   "system": "single_agent",
+   "answer": "The latest release of FastAPI requires Python version `>=3.10`, while the latest release of Flask requires Python version `>=3.9`. Since `3.10` is newer than `3.9`, FastAPI has a higher minimum Python version requirement.\n\nANSWER: FastAPI requires a newer minimum Python version (>=3.10) compared to Flask (>=3.9).",
+   "error": null,
+   "wall_s": 89.7,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 2,
+   "tool_errors": 0,
+   "input_tokens": 3064,
+   "output_tokens": 128,
+   "cost_usd": 0.0,
+   "llm_ms": 88630.5,
+   "trace": "evals/traces/single-qwen3-4b/q07.jsonl",
+   "cost_at_claude-haiku-5-5": 0.00037,
+   "cost_at_claude-sonnet-5-5": 0.007408,
+   "detail": {
+    "answer": "The latest release of FastAPI requires Python version `>=3.10`, while the latest release of Flask requires Python version `>=3.9`. Since `3.10` is newer than `3.9`, FastAPI has a higher minimum Python version requirement.\n\nANSWER: FastAPI requires a newer minimum Python version (>=3.10) compared to Flask (>=3.9).",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 2,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the required Python versions for both FastAPI and Flask and accurately concludes that FastAPI requires a newer minimum Python version.",
+    "judge_tokens": 353
+   }
+  },
+  {
+   "id": "q08",
+   "category": "compare",
+   "hops": 2,
+   "system": "single_agent",
+   "answer": "The latest release of Starlette requires Python version `>=3.11`, while the latest release of HTTPX requires Python version `>=3.8`. Since `3.11` is newer than `3.8`, Starlette requires a newer minimum Python version.\n\nANSWER: Starlette requires a newer minimum Python version (>=3.11) compared to HTTPX (>=3.8).",
+   "error": null,
+   "wall_s": 100.0,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 2,
+   "tool_errors": 0,
+   "input_tokens": 2952,
+   "output_tokens": 129,
+   "cost_usd": 0.0,
+   "llm_ms": 99083.0,
+   "trace": "evals/traces/single-qwen3-4b/q08.jsonl",
+   "cost_at_claude-haiku-5-5": 0.00036,
+   "cost_at_claude-sonnet-5-5": 0.007194,
+   "detail": {
+    "answer": "The latest release of Starlette requires Python version `>=3.11`, while the latest release of HTTPX requires Python version `>=3.8`. Since `3.11` is newer than `3.8`, Starlette requires a newer minimum Python version.\n\nANSWER: Starlette requires a newer minimum Python version (>=3.11) compared to HTTPX (>=3.8).",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 2,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the required Python versions for both Starlette and HTTPX and accurately concludes that Starlette requires a newer minimum Python version.",
+    "judge_tokens": 357
+   }
+  }
+ ]
+}

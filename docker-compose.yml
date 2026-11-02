@@ -1,0 +1,26 @@
+# Local stack: a llama.cpp server for the model and the agent app.
+#   mkdir -p models && <download a GGUF, see README>   then
+#   docker compose up -d llm && docker compose run --rm app eval --system multi_agent --out evals/results/compose-multi.json
+# Set ARP_LLM=claude:claude-opus-5-5 and ANTHROPIC_API_KEY to use Claude instead of the local model.
+services:
+  llm:
+    image: docker/model-runner:latest
+    entrypoint: ["/app/llama-server"]
+    command: ["-m", "/models/${ARP_GGUF:-qwen3-4b-instruct-2507-q4km.gguf}", "--host", "0.0.0.0", "--port", "8080",
+              "-c", "16384", "--parallel", "2", "--jinja", "-t", "${LLM_THREADS:-4}"]
+    volumes: ["./models:/models:ro"]
+    ports: ["8080:8080"]
+  app:
+    build: .
+    depends_on: [llm]
+    environment:
+      ARP_LLM: ${ARP_LLM:-local}
+      ARP_JUDGE: ${ARP_JUDGE:-local}
+      ARP_LLM_BASE_URL: http://llm:8080/v1
+      ARP_HTTP_MODE: ${ARP_HTTP_MODE:-replay}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+    volumes:
+      - ./evals/results:/app/evals/results
+      - ./evals/traces:/app/evals/traces
+      - ./.arp:/app/.arp

@@ -1,0 +1,44 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: ruff format --check arp tests scripts
+      - name: build the sandbox image (so the Docker sandbox tests run, not skip)
+        run: docker build -t arp-sandbox:py311 -f docker/sandbox.Dockerfile docker
+      - run: pytest -q -rs
+
+  eval-gate:
+    # No model runs here. The gate checks the committed eval results against the code and prompts
+    # in this commit, and fails the PR when a prompt change was not re-evaluated or lowers quality.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: deterministic checks still score recorded answers the same way
+        run: |
+          for f in evals/results/multi-qwen3-4b.json evals/results/single-qwen3-4b.json; do arp rescore "$f"; done
+      - name: replay recorded traces through the current orchestration code
+        run: |
+          arp replay evals/results/single-qwen3-4b.json --strict
+          arp replay evals/results/multi-qwen3-4b.json --strict
+      - name: regression gate against the accepted baseline
+        run: |
+          arp gate --baseline evals/baselines/multi-qwen3-4b.json --candidate evals/results/multi-qwen3-4b.json
+          arp gate --baseline evals/baselines/single-qwen3-4b.json --candidate evals/results/single-qwen3-4b.json

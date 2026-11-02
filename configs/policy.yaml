@@ -1,0 +1,18 @@
+# Who may call which MCP tool. Default deny: a principal or tool not listed here is refused.
+principals:
+  researcher:            # research worker agents and the single-agent baseline
+    tools: ["pypi_*", "github_*"]
+    deny_tools: ["github_create_pull_request"]
+    repos: ["samarateja0118/*"]
+    max_calls: 40
+  critic:                # verifier may spot-check a few facts
+    tools: ["pypi_package", "pypi_version", "pypi_releases", "github_repo", "github_read_file"]
+    repos: ["samarateja0118/*"]
+    max_calls: 4
+  planner:               # plans only, never calls tools
+    tools: []
+  ops:                   # CI-triage agent: may open a draft PR on one repo, only with approval
+    tools: ["github_read_file", "github_create_pull_request"]
+    repos: ["samarateja0118/agentic-research-platform"]
+    requires_approval: ["github_create_pull_request"]
+    max_calls: 10

@@ -1,0 +1,40 @@
+name: eval-claude
+# Live eval on Claude. Runs only when started by hand and an ANTHROPIC_API_KEY secret exists.
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: "Claude model id"
+        default: "claude-haiku-5-5"
+      ids:
+        description: "comma-separated question ids (empty = all)"
+        default: ""
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      ARP_HTTP_MODE: replay
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -e .
+      - name: multi-agent and single-agent on Claude
+        if: env.ANTHROPIC_API_KEY != ''
+        run: |
+          arp eval --system single_agent --llm "claude:${{ inputs.model }}@low" --judge "claude:${{ inputs.model }}@low" \
+            --ids "${{ inputs.ids }}" --out evals/results/claude-single.json --label "single agent, ${{ inputs.model }}"
+          arp eval --system multi_agent --llm "claude:${{ inputs.model }}@low" --judge "claude:${{ inputs.model }}@low" \
+            --ids "${{ inputs.ids }}" --out evals/results/claude-multi.json --label "multi agent, ${{ inputs.model }}"
+          arp compare evals/results/claude-single.json evals/results/claude-multi.json >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: env.ANTHROPIC_API_KEY != ''
+        with:
+          name: claude-eval
+          path: |
+            evals/results/claude-*.json
+            evals/traces/claude-*

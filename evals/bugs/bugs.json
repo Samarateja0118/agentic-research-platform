@@ -1,0 +1,102 @@
+[
+ {
+  "id": "b01",
+  "file": "ledger/money.py",
+  "edits": [
+   {
+    "old": ".replace(\",\", \"\")",
+    "new": ".replace(\",\", \".\")"
+   }
+  ],
+  "kind": "wrong literal",
+  "summary": "thousands separator replaced with a decimal point"
+ },
+ {
+  "id": "b02",
+  "file": "ledger/money.py",
+  "edits": [
+   {
+    "old": "from decimal import ROUND_HALF_UP, Decimal",
+    "new": "from decimal import ROUND_HALF_EVEN, ROUND_HALF_UP, Decimal"
+   },
+   {
+    "old": "rounding=ROUND_HALF_UP)",
+    "new": "rounding=ROUND_HALF_EVEN)"
+   }
+  ],
+  "kind": "wrong constant",
+  "summary": "banker's rounding instead of half-up"
+ },
+ {
+  "id": "b03",
+  "file": "ledger/dates.py",
+  "edits": [
+   {
+    "old": "    while due.weekday() >= 5:",
+    "new": "    while due.weekday() > 5:"
+   }
+  ],
+  "kind": "off-by-one",
+  "summary": "Saturday due dates are not moved to Monday"
+ },
+ {
+  "id": "b04",
+  "file": "ledger/dates.py",
+  "edits": [
+   {
+    "old": "    return max(0, (today - due).days)",
+    "new": "    return (today - due).days"
+   }
+  ],
+  "kind": "missing clamp",
+  "summary": "negative overdue days"
+ },
+ {
+  "id": "b05",
+  "file": "ledger/invoice.py",
+  "edits": [
+   {
+    "old": "        return round_cents((self.subtotal - self.discount) * self.tax_rate / 100)",
+    "new": "        return round_cents(self.subtotal * self.tax_rate / 100)"
+   }
+  ],
+  "kind": "logic order",
+  "summary": "tax computed before the discount"
+ },
+ {
+  "id": "b06",
+  "file": "ledger/invoice.py",
+  "edits": [
+   {
+    "old": "        if item.quantity <= 0:",
+    "new": "        if item.quantity < 0:"
+   }
+  ],
+  "kind": "boundary",
+  "summary": "zero-quantity line items accepted"
+ },
+ {
+  "id": "b07",
+  "file": "ledger/csvio.py",
+  "edits": [
+   {
+    "old": "    reader.fieldnames = [f.strip().lower() for f in reader.fieldnames]",
+    "new": "    reader.fieldnames = [f.strip() for f in reader.fieldnames]"
+   }
+  ],
+  "kind": "case handling",
+  "summary": "CSV headers become case-sensitive"
+ },
+ {
+  "id": "b08",
+  "file": "ledger/textutil.py",
+  "edits": [
+   {
+    "old": "    return text[: width - 3] + \"...\"",
+    "new": "    return text[: width - 2] + \"...\""
+   }
+  ],
+  "kind": "off-by-one",
+  "summary": "truncate returns width+1 characters"
+ }
+]
