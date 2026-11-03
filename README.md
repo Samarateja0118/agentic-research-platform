@@ -8,6 +8,12 @@ The point of the project is the harness as much as the agents. Every question in
 
 **Read this first: the measured numbers below come from a 4B local model, not Claude.** The container this was built in had no Claude API key, so every run used Qwen3-4B-Instruct-2507 (Q4_K_M, llama.cpp, 4 CPU cores) through the same provider-neutral interface the Claude backend uses. The Claude backend is implemented (`arp.llm.AnthropicLLM`, official SDK, manual tool loop) and a manual GitHub Action runs the same evals on Claude when an `ANTHROPIC_API_KEY` secret is set, but no Claude numbers are reported here because none were measured. Dollar figures are the local runs' token counts priced at Claude list prices, as a rough guide only (Qwen's tokenizer differs from Claude's).
 
+**At a glance** (local 4B model; details in [Results](#results)):
+
+- **Multi-agent did not beat single-agent here:** 94% vs 100% pass rate on 31 questions (difference -0.032, 95% CI [-0.161, +0.065]) at about 3x the tokens. The traces show why, and the README reports it as the finding.
+- CI triage agent fixed 5 of 8 seeded bugs, verified by the harness's own test run, vs 3 of 8 for a one-shot patch.
+- CI blocks a prompt change that was not re-evaluated or lowers quality; every committed trace replays byte for byte.
+
 ## Architecture
 
 ```mermaid
