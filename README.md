@@ -101,7 +101,25 @@ Round 1 rows were rescored with the round 1 dataset after one checker fix (numbe
 
 ### Harder questions (5-6 entities)
 
-HARD_TABLE
+| metric | single agent | multi agent (up to 4 workers) | multi agent, up to 6 workers (experiment) |
+|---|---|---|---|
+| pass rate (all checks) | **6 / 6** | 2 / 6 | 5 / 6 |
+| checks passed | 100% | 70% | 97% |
+| judge mean (1-5) | 5.0 | 3.5 | 5.0 |
+| crashed runs | 0 | 1 | 0 |
+| LLM calls / question | 2.0 | 13.0 | 16.7 |
+| tool calls / question | 5.5 | 5.5 | 7.7 |
+| input tokens / question | 4,592 | 23,201 | 32,094 |
+| wall time / question | 88 s | 277 s | 331 s |
+| $ / question at Claude Sonnet 5.5 prices | $0.012 | $0.054 | $0.071 |
+
+The harder set was meant to give the multi-agent design its best case: more entities than one agent comfortably tracks. It went the other way, and the traces say why:
+
+- **Coverage loss at the planner.** With a cap of 4 sub-questions and 6 entities, the planner grouped some entities and the grouped workers skipped some ("fastapi: not found in findings").
+- **A worker overflowed its context and took the run down.** One worker that was handed three packages hit llama.cpp's 8,192-token slot limit (HTTP 400) and the exception failed the whole question. A single agent handled the same six lookups in one turn of parallel tool calls with 4.6k tokens in total.
+- **A typo stopped at the permission layer.** A worker asked GitHub for `Samarateja018/rag-eval-system` (one digit missing). The MCP policy denied it as outside the repo allowlist, which is correct, and the worker reported the repo as "inaccessible" instead of retrying with the owner from the question.
+
+The experiment column changes two things: a failed worker now returns "no findings" instead of failing the run (also merged into the main code, with a test), and the planner may use up to 6 workers ([`prompts/variants/wide_plan/`](prompts/variants/wide_plan), `ARP_MAX_SUBTASKS=6`). That lifted the multi-agent system to 5/6. The one miss: the requests release count, 158, was missing from the answer. On 6 questions none of these differences are statistically meaningful; they are reported for the failure modes, not the rates.
 
 ### The regression gate catches a bad prompt
 
@@ -182,7 +200,7 @@ arp ops --bug b04 --open-pr                 # files an approval request; nothing
 - **Small eval sets.** 31 + 6 research questions and 8 bugs. Confidence intervals are wide; the multi vs single comparison on the main set is not significant either way.
 - **Self-judging.** The judge is the same 4B model, and it was demonstrably wrong on several answers (above).
 - **Round 2 changed several things at once**, after looking at round 1 failures on the same questions. The round 2 numbers are therefore optimistic for unseen questions; there is no held-out split.
-- **The questions are about package metadata and the author's own repos**, answerable through 9 narrow tools. That favours a single agent with parallel tool calls; the multi-agent design should matter more with longer documents or many more entities than fit in one context.
+- **The questions are about package metadata and the author's own repos**, answerable through 9 narrow tools that return a few hundred tokens each. That favours a single agent with parallel tool calls. Tasks where each sub-question needs long documents or many tool steps, more than fit one context, are where splitting work should pay off; this repo does not test that.
 - **The sandbox is a container, not a VM.** It shares the host kernel. The agent's own file edits happen on a host-side copy with path checks; only test execution is containerised.
 - **The approval gate is file-based and local.** It proves the binding (approval = exact payload digest) but is not a multi-user approval service.
 - **The research tools are read-only by design**, and the GitHub repo allowlist only covers `Samarateja0118/*`.

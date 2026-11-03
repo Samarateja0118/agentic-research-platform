@@ -1,0 +1,441 @@
+{
+ "meta": {
+  "system": "multi_agent",
+  "model": "qwen3-4b-instruct-2507-q4_k_m",
+  "label": "multi agent, hard set, up to 6 workers",
+  "dataset": "evals/datasets/research-hard.jsonl",
+  "dataset_digest": "391a5ba47a46",
+  "prompt_version": "7f87447a792b",
+  "snapshot_digest": {
+   "github": "5f09e4d57a87",
+   "pypi": "e36779c995bc"
+  },
+  "created": "2026-11-03T07:06:00Z",
+  "prices_per_mtok": {
+   "claude-opus-5-5": [
+    4.0,
+    20.0
+   ],
+   "claude-sonnet-5-5": [
+    2.0,
+    10.0
+   ],
+   "claude-haiku-5-5": [
+    0.1,
+    0.5
+   ]
+  }
+ },
+ "summary": {
+  "n": 6,
+  "pass_rate": 0.833,
+  "check_fraction": 0.972,
+  "judge_mean": 5.0,
+  "judge_ge4": 1.0,
+  "errors": 0,
+  "mean_llm_calls": 16.7,
+  "mean_tool_calls": 7.7,
+  "tool_error_rate": 0.0,
+  "mean_input_tokens": 32094,
+  "mean_output_tokens": 718,
+  "mean_wall_s": 331.2,
+  "mean_cost_at_claude-haiku-5-5": 0.00357,
+  "mean_cost_at_claude-sonnet-5-5": 0.07137,
+  "pass_by_category": {
+   "hard": "5/6"
+  }
+ },
+ "rows": [
+  {
+   "id": "h01",
+   "category": "hard",
+   "hops": 6,
+   "system": "multi_agent",
+   "answer": "numpy: 11 non-yanked releases in 2024  \npandas: 4 non-yanked releases in 2024  \npolars: 48 non-yanked releases in 2024  \nscipy: 10 non-yanked releases in 2024  \nmatplotlib: 11 non-yanked releases in 2024  \nscikit-learn: 9 non-yanked releases in 2024  \n\nThe package that published the most non-yanked releases in 2024 is polars, with 48 releases.  \n\nANSWER: polars with 48 releases",
+   "error": null,
+   "wall_s": 341.0,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 15,
+   "tool_calls": 6,
+   "tool_errors": 0,
+   "input_tokens": 29446,
+   "output_tokens": 740,
+   "cost_usd": 0.0,
+   "llm_ms": 726929.8,
+   "trace": "evals/traces/hard-multi-qwen3-4b-wide-plan/h01.jsonl",
+   "cost_at_claude-haiku-5-5": 0.003315,
+   "cost_at_claude-sonnet-5-5": 0.066292,
+   "detail": {
+    "answer": "numpy: 11 non-yanked releases in 2024  \npandas: 4 non-yanked releases in 2024  \npolars: 48 non-yanked releases in 2024  \nscipy: 10 non-yanked releases in 2024  \nmatplotlib: 11 non-yanked releases in 2024  \nscikit-learn: 9 non-yanked releases in 2024  \n\nThe package that published the most non-yanked releases in 2024 is polars, with 48 releases.  \n\nANSWER: polars with 48 releases",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "Using pypi_releases, count the total non-yanked releases for numpy in 2024."
+     },
+     {
+      "id": "t2",
+      "question": "Using pypi_releases, count the total non-yanked releases for pandas in 2024."
+     },
+     {
+      "id": "t3",
+      "question": "Using pypi_releases, count the total non-yanked releases for polars in 2024."
+     },
+     {
+      "id": "t4",
+      "question": "Using pypi_releases, count the total non-yanked releases for scipy in 2024."
+     },
+     {
+      "id": "t5",
+      "question": "Using pypi_releases, count the total non-yanked releases for matplotlib in 2024."
+     },
+     {
+      "id": "t6",
+      "question": "Using pypi_releases, count the total non-yanked releases for scikit-learn in 2024."
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "pass",
+      "problems": [],
+      "followups": []
+     }
+    ],
+    "evidence_count": 6,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly lists all the non-yanked releases for each package as specified in the reference and accurately identifies polars as the package with the most releases.",
+    "judge_tokens": 475
+   }
+  },
+  {
+   "id": "h02",
+   "category": "hard",
+   "hops": 6,
+   "system": "multi_agent",
+   "answer": "Django: >=3.12  \nFlask: >=3.9  \nFastAPI: >=3.10  \nHTTPX: >=3.8  \nAioHTTP: >=3.10  \nCelery: >=3.9  \n\nThe highest minimum Python version required is 3.12, required by Django.  \n\nANSWER: django",
+   "error": null,
+   "wall_s": 178.4,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 15,
+   "tool_calls": 6,
+   "tool_errors": 0,
+   "input_tokens": 23382,
+   "output_tokens": 591,
+   "cost_usd": 0.0,
+   "llm_ms": 381499.2,
+   "trace": "evals/traces/hard-multi-qwen3-4b-wide-plan/h02.jsonl",
+   "cost_at_claude-haiku-5-5": 0.002634,
+   "cost_at_claude-sonnet-5-5": 0.052674,
+   "detail": {
+    "answer": "Django: >=3.12  \nFlask: >=3.9  \nFastAPI: >=3.10  \nHTTPX: >=3.8  \nAioHTTP: >=3.10  \nCelery: >=3.9  \n\nThe highest minimum Python version required is 3.12, required by Django.  \n\nANSWER: django",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "What is the minimum Python version required by the latest release of django?"
+     },
+     {
+      "id": "t2",
+      "question": "What is the minimum Python version required by the latest release of flask?"
+     },
+     {
+      "id": "t3",
+      "question": "What is the minimum Python version required by the latest release of fastapi?"
+     },
+     {
+      "id": "t4",
+      "question": "What is the minimum Python version required by the latest release of httpx?"
+     },
+     {
+      "id": "t5",
+      "question": "What is the minimum Python version required by the latest release of aiohttp?"
+     },
+     {
+      "id": "t6",
+      "question": "What is the minimum Python version required by the latest release of celery?"
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "pass",
+      "problems": [],
+      "followups": []
+     }
+    ],
+    "evidence_count": 6,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the minimum Python versions for each framework as specified in the reference and accurately concludes that Django requires the newest Python version (3.12).",
+    "judge_tokens": 418
+   }
+  },
+  {
+   "id": "h03",
+   "category": "hard",
+   "hops": 6,
+   "system": "multi_agent",
+   "answer": "pytest: 2010, ruff: 2022, black: 2018, mypy: 2009, isort: 2013, flake8: 2010. The oldest is mypy, released in 2009.\n\nANSWER: mypy, 2009",
+   "error": null,
+   "wall_s": 281.2,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 19,
+   "tool_calls": 10,
+   "tool_errors": 0,
+   "input_tokens": 31599,
+   "output_tokens": 639,
+   "cost_usd": 0.0,
+   "llm_ms": 598116.9,
+   "trace": "evals/traces/hard-multi-qwen3-4b-wide-plan/h03.jsonl",
+   "cost_at_claude-haiku-5-5": 0.003479,
+   "cost_at_claude-sonnet-5-5": 0.069588,
+   "detail": {
+    "answer": "pytest: 2010, ruff: 2022, black: 2018, mypy: 2009, isort: 2013, flake8: 2010. The oldest is mypy, released in 2009.\n\nANSWER: mypy, 2009",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "What is the first release year of pytest on PyPI?"
+     },
+     {
+      "id": "t2",
+      "question": "What is the first release year of ruff on PyPI?"
+     },
+     {
+      "id": "t3",
+      "question": "What is the first release year of black on PyPI?"
+     },
+     {
+      "id": "t4",
+      "question": "What is the first release year of mypy on PyPI?"
+     },
+     {
+      "id": "t5",
+      "question": "What is the first release year of isort on PyPI?"
+     },
+     {
+      "id": "t6",
+      "question": "What is the first release year of flake8 on PyPI?"
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "pass",
+      "problems": [],
+      "followups": []
+     }
+    ],
+    "evidence_count": 10,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly provides all the first release years and identifies mypy as the oldest, which aligns perfectly with the reference answer.",
+    "judge_tokens": 410
+   }
+  },
+  {
+   "id": "h04",
+   "category": "hard",
+   "hops": 4,
+   "system": "multi_agent",
+   "answer": "- Samarateja0118/gpu-scheduler-platform: Go (91.7%)  \n- Samarateja0118/rag-eval-system: Python (97.7%)  \n- Samarateja0118/mlb-mlops-pipeline: Python (100.0%)  \n- Samarateja0118/movie-mcp-server: Python (82.2%)  \n\nThree of the four repositories are primarily Python.  \n\nANSWER: The primary languages are Go, Python, Python, and Python respectively. Three of the repositories are primarily Python.",
+   "error": null,
+   "wall_s": 203.7,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 14,
+   "tool_calls": 7,
+   "tool_errors": 0,
+   "input_tokens": 21823,
+   "output_tokens": 801,
+   "cost_usd": 0.0,
+   "llm_ms": 400901.0,
+   "trace": "evals/traces/hard-multi-qwen3-4b-wide-plan/h04.jsonl",
+   "cost_at_claude-haiku-5-5": 0.002583,
+   "cost_at_claude-sonnet-5-5": 0.051656,
+   "detail": {
+    "answer": "- Samarateja0118/gpu-scheduler-platform: Go (91.7%)  \n- Samarateja0118/rag-eval-system: Python (97.7%)  \n- Samarateja0118/mlb-mlops-pipeline: Python (100.0%)  \n- Samarateja0118/movie-mcp-server: Python (82.2%)  \n\nThree of the four repositories are primarily Python.  \n\nANSWER: The primary languages are Go, Python, Python, and Python respectively. Three of the repositories are primarily Python.",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "What is the primary language of the GitHub repository Samarateja0118/gpu-scheduler-platform?"
+     },
+     {
+      "id": "t2",
+      "question": "What is the primary language of the GitHub repository Samarateja0118/rag-eval-system?"
+     },
+     {
+      "id": "t3",
+      "question": "What is the primary language of the GitHub repository Samarateja0118/mlb-mlops-pipeline?"
+     },
+     {
+      "id": "t4",
+      "question": "What is the primary language of the GitHub repository Samarateja0118/movie-mcp-server?"
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "pass",
+      "problems": [],
+      "followups": []
+     }
+    ],
+    "evidence_count": 7,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the primary language for each repository and accurately states that three out of four are primarily Python, matching the reference answer in both detail and conclusion.",
+    "judge_tokens": 472
+   }
+  },
+  {
+   "id": "h05",
+   "category": "hard",
+   "hops": 6,
+   "system": "multi_agent",
+   "answer": "The latest versions on PyPI (as of 2026-11-02) are:  \n- anthropic: 2.4.0  \n- mcp: 2.3.0  \n- pydantic: 2.14.2  \n- httpx: 0.28.1  \n- fastapi: 0.162.0  \n- uvicorn: 0.54.0  \n\nAll values are directly from the raw tool results, which are authoritative.  \n\nANSWER: anthropic: 2.4.0, mcp: 2.3.0, pydantic: 2.14.2, httpx: 0.28.1, fastapi: 0.162.0, uvicorn: 0.54.0",
+   "error": null,
+   "wall_s": 205.7,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 15,
+   "tool_calls": 6,
+   "tool_errors": 0,
+   "input_tokens": 23314,
+   "output_tokens": 686,
+   "cost_usd": 0.0,
+   "llm_ms": 422403.7,
+   "trace": "evals/traces/hard-multi-qwen3-4b-wide-plan/h05.jsonl",
+   "cost_at_claude-haiku-5-5": 0.002674,
+   "cost_at_claude-sonnet-5-5": 0.053488,
+   "detail": {
+    "answer": "The latest versions on PyPI (as of 2026-11-02) are:  \n- anthropic: 2.4.0  \n- mcp: 2.3.0  \n- pydantic: 2.14.2  \n- httpx: 0.28.1  \n- fastapi: 0.162.0  \n- uvicorn: 0.54.0  \n\nAll values are directly from the raw tool results, which are authoritative.  \n\nANSWER: anthropic: 2.4.0, mcp: 2.3.0, pydantic: 2.14.2, httpx: 0.28.1, fastapi: 0.162.0, uvicorn: 0.54.0",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "What is the latest version of the package anthropic on PyPI?"
+     },
+     {
+      "id": "t2",
+      "question": "What is the latest version of the package mcp on PyPI?"
+     },
+     {
+      "id": "t3",
+      "question": "What is the latest version of the package pydantic on PyPI?"
+     },
+     {
+      "id": "t4",
+      "question": "What is the latest version of the package httpx on PyPI?"
+     },
+     {
+      "id": "t5",
+      "question": "What is the latest version of the package fastapi on PyPI?"
+     },
+     {
+      "id": "t6",
+      "question": "What is the latest version of the package uvicorn on PyPI?"
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "pass",
+      "problems": [],
+      "followups": []
+     }
+    ],
+    "evidence_count": 6,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant's answer matches the reference answer exactly in all facts and conclusions.",
+    "judge_tokens": 499
+   }
+  },
+  {
+   "id": "h06",
+   "category": "hard",
+   "hops": 5,
+   "system": "multi_agent",
+   "answer": "requests: no data available (worker failed, no findings).  \nhttpx: 76 non-yanked releases.  \naiohttp: 307 non-yanked releases.  \nurllib3: 101 non-yanked releases.  \ncertifi: 77 non-yanked releases.  \n\nThe package with the most non-yanked releases is aiohttp (307).  \n\nANSWER: aiohttp has the most non-yanked releases with 307.",
+   "error": null,
+   "wall_s": 777.3,
+   "pass": false,
+   "check_fraction": 0.833,
+   "failed_checks": [
+    "number 158"
+   ],
+   "llm_calls": 22,
+   "tool_calls": 11,
+   "tool_errors": 0,
+   "input_tokens": 63001,
+   "output_tokens": 850,
+   "cost_usd": 0.0,
+   "llm_ms": 1470063.5,
+   "trace": "evals/traces/hard-multi-qwen3-4b-wide-plan/h06.jsonl",
+   "cost_at_claude-haiku-5-5": 0.006725,
+   "cost_at_claude-sonnet-5-5": 0.134502,
+   "detail": {
+    "answer": "requests: no data available (worker failed, no findings).  \nhttpx: 76 non-yanked releases.  \naiohttp: 307 non-yanked releases.  \nurllib3: 101 non-yanked releases.  \ncertifi: 77 non-yanked releases.  \n\nThe package with the most non-yanked releases is aiohttp (307).  \n\nANSWER: aiohttp has the most non-yanked releases with 307.",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "What is the total number of non-yanked releases for requests on PyPI?"
+     },
+     {
+      "id": "t2",
+      "question": "What is the total number of non-yanked releases for httpx on PyPI?"
+     },
+     {
+      "id": "t3",
+      "question": "What is the total number of non-yanked releases for aiohttp on PyPI?"
+     },
+     {
+      "id": "t4",
+      "question": "What is the total number of non-yanked releases for urllib3 on PyPI?"
+     },
+     {
+      "id": "t5",
+      "question": "What is the total number of non-yanked releases for certifi on PyPI?"
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "revise",
+      "problems": [
+       "requests: data not available"
+      ],
+      "followups": [
+       "What is the total number of non-yanked releases for the requests package on PyPI?"
+      ]
+     },
+     {
+      "verdict": "revise",
+      "problems": [
+       "requests: the draft states 'no data available' but the evidence shows a total of 158 non-yanked releases"
+      ],
+      "followups": []
+     }
+    ],
+    "evidence_count": 6,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly provides all the total non-yanked releases for each package and accurately identifies aiohttp as having the most, matching the reference answer exactly.",
+    "judge_tokens": 424
+   }
+  }
+ ]
+}
