@@ -15,9 +15,15 @@ from pathlib import Path
 from arp.agents.toolbox import MCPToolbox
 from arp.mcp_server.policy import ApprovalStore
 
-PAYLOAD = {"owner": "Samarateja0118", "repo": "agentic-research-platform", "base": "main", "branch": "ops/fix-b08",
-           "title": "fix(b08): truncate keeps width - 3 chars", "body": "demo",
-           "files": {"evals/bugs/project/ledger/textutil.py": "fixed contents"}}
+PAYLOAD = {
+    "owner": "Samarateja0118",
+    "repo": "agentic-research-platform",
+    "base": "main",
+    "branch": "ops/fix-b08",
+    "title": "fix(b08): truncate keeps width - 3 chars",
+    "body": "demo",
+    "files": {"evals/bugs/project/ledger/textutil.py": "fixed contents"},
+}
 
 
 async def main() -> None:
@@ -38,8 +44,10 @@ async def main() -> None:
         text, err = await tb.call("ops", "github_create_pull_request", PAYLOAD)
         out.append(f"ops, after approving a different patch: error={err}: {text}")
     out.append("\naudit log:")
-    out += [json.dumps({k: v for k, v in json.loads(line).items() if k not in ("pid", "session")})
-            for line in (home / "audit.jsonl").read_text().splitlines()]
+    out += [
+        json.dumps({k: v for k, v in json.loads(line).items() if k not in ("pid", "session")})
+        for line in (home / "audit.jsonl").read_text().splitlines()
+    ]
     Path("results").mkdir(exist_ok=True)
     Path("results/approval-gate-demo.txt").write_text("\n".join(out) + "\n")
     print("\n".join(out))
