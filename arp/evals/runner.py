@@ -98,6 +98,16 @@ async def run_eval(
     trace_dir.mkdir(parents=True, exist_ok=True)
     sem = asyncio.Semaphore(concurrency)
     rows: list[dict] = []
+    if out.exists():  # resume an interrupted run if it used the same prompts and dataset
+        prev = json.loads(out.read_text())
+        names = MULTI_PROMPTS if system == "multi_agent" else SINGLE_PROMPTS
+        if prev["meta"].get("prompt_version") == prompt_version(names, prompt_dir) and prev["meta"].get(
+            "dataset_digest"
+        ) == file_digest(dataset):
+            rows = [r for r in prev["rows"] if not r.get("error")]
+            done = {r["id"] for r in rows}
+            qs = [q for q in qs if q["id"] not in done]
+            print(f"[{name}] resuming: {len(done)} done, {len(qs)} to go", flush=True)
 
     async def go(q):
         async with sem:

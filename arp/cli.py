@@ -85,7 +85,7 @@ def cmd_replay(a) -> int:
 def cmd_rescore(a) -> int:
     from .evals.gate import rescore
 
-    ok, report = rescore(a.results, a.dataset)
+    ok, report = rescore(a.results, a.dataset, a.write)
     print(report)
     return 0 if ok else 1
 
@@ -161,6 +161,7 @@ def main(argv: list[str] | None = None) -> int:
     s = sub.add_parser("rescore", help="re-apply deterministic checks to recorded answers")
     s.add_argument("results")
     s.add_argument("--dataset", default="evals/datasets/research.jsonl")
+    s.add_argument("--write", action="store_true", help="update pass/fail fields from the recorded answers")
     s.set_defaults(fn=cmd_rescore)
 
     s = sub.add_parser("trace", help="print a recorded trace as a span tree")

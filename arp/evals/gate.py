@@ -86,7 +86,7 @@ def gate(
     return ok, "\n".join(lines)
 
 
-def rescore(results: str, dataset: str) -> tuple[bool, str]:
+def rescore(results: str, dataset: str, write: bool = False) -> tuple[bool, str]:
     """Re-apply the current deterministic checks to the recorded answers. A mismatch means the
     scorer or dataset changed without re-running the eval."""
     doc = _load(results)
@@ -98,4 +98,12 @@ def rescore(results: str, dataset: str) -> tuple[bool, str]:
             bad.append(
                 f"{r['id']}: recorded pass={r['pass']} but current checks give {s['pass']} {s['failed_checks']}"
             )
+        if write:
+            r.update(s)
+    if write:
+        from .runner import summarize
+
+        doc["summary"] = summarize(doc["rows"])
+        Path(results).write_text(json.dumps(doc, indent=1, default=str))
+        return True, "\n".join(bad + [f"rewrote {results} with the current checks"])
     return not bad, "\n".join(bad) or f"rescore OK: {len(doc['rows'])} answers score as recorded"

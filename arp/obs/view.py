@@ -22,13 +22,17 @@ def render(path: str, show_io: bool = False) -> str:
         extra = ""
         if s["kind"] == "llm":
             calls = [c["name"] for c in a.get("response", {}).get("tool_calls", [])]
-            extra = f" in={a.get('input_tokens')} out={a.get('output_tokens')}" + (f" -> {calls}" if calls else "")
+            extra = f" in={a.get('input_tokens')} out={a.get('output_tokens')}" + (
+                f" -> {calls}" if calls else ""
+            )
         elif s["kind"] == "tool":
             extra = f" {a.get('args')} {'ERROR' if a.get('is_error') else 'ok'}"
         elif s["kind"] == "agent" and a.get("verdict"):
             extra = f" verdict={a['verdict']}"
         err = f"  !! {s['error']}" if s.get("error") else ""
-        out.append(f"{'  ' * depth}+{s['start'] - t0:7.1f}s {s['dur_ms'] / 1e3:6.1f}s  {s['kind']:<5} {s['name']}{extra}{err}")
+        out.append(
+            f"{'  ' * depth}+{s['start'] - t0:7.1f}s {s['dur_ms'] / 1e3:6.1f}s  {s['kind']:<5} {s['name']}{extra}{err}"
+        )
         if show_io and s["kind"] == "llm":
             out.append(f"{'  ' * (depth + 1)}  >> {a.get('response', {}).get('text', '')[:300]!r}")
         if show_io and s["kind"] == "tool":

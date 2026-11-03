@@ -6,6 +6,10 @@ import re
 from typing import Any
 
 
+NUMBER_WORDS = {w: i for i, w in enumerate(
+    "zero one two three four five six seven eight nine ten eleven twelve".split())}
+
+
 def normalize(text: str) -> str:
     text = text.lower().replace("‑", "-").replace("–", "-").replace("**", "").replace("`", "")
     return re.sub(r"\s+", " ", text)
@@ -29,8 +33,9 @@ def run_check(check: dict[str, Any], answer: str) -> tuple[bool, str]:
         ok = _has_token(full, value) or _has_token(full.replace(",", ""), value)
         return ok, f"contains '{value}'"
     if kind == "number":
-        nums = re.findall(r"(?<![\w.])\d[\d,]*(?![\w.]\d)", full)
-        ok = value in {n.replace(",", "") for n in nums}
+        nums = {n.replace(",", "") for n in re.findall(r"(?<![\w.])\d[\d,]*(?![\w.]\d)", full)}
+        nums |= {str(i) for w, i in NUMBER_WORDS.items() if re.search(rf"\b{w}\b", full)}
+        ok = value in nums
         return ok, f"number {value}"
     if kind == "yesno":
         other = "no" if value == "yes" else "yes"

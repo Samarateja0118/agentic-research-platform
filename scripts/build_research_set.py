@@ -18,6 +18,7 @@ from pathlib import Path
 from arp.mcp_server.backends import default_backends
 
 OUT = Path("evals/datasets/research.jsonl")
+HARD = Path("evals/datasets/research-hard.jsonl")
 U = "Samarateja0118"
 SNAP = "(PyPI/GitHub snapshot of 2026-11-02)"
 
@@ -59,12 +60,17 @@ async def main() -> None:
     qs: list[dict] = []
 
     def add(cat, q, checks, ref, hops):
+        q = f"{q} {SNAP}"
+        if any(c["type"] == "answer_first" for c in checks):
+            q += " Begin the ANSWER line with the one you pick."
+        if any(c["type"] == "yesno" for c in checks):
+            q += " Begin the ANSWER line with yes or no."
         qs.append(
             {
                 "id": f"q{len(qs) + 1:02d}",
                 "category": cat,
                 "hops": hops,
-                "question": f"{q} {SNAP}",
+                "question": q,
                 "checks": checks,
                 "reference": ref,
             }
@@ -355,12 +361,12 @@ async def main() -> None:
     spec = re.search(r"^mcp([^\n]*)$", f["content"], re.M).group(1).strip()
     m = await pkg("mcp")
     major = int(m["latest_version"].split(".")[0])
-    allowed = "<2" in spec and major >= 2
+    allowed = not ("<2" in spec and major >= 2)  # does the pinned range admit the latest release?
     add(
         "cross",
         f"What version range of the mcp package does {U}/movie-mcp-server pin in requirements.txt, and does that range allow the latest mcp release on PyPI?",
         contains(spec.split(",")[0].replace(">=", ""), m["latest_version"]) + [yesno(allowed)],
-        f"pins mcp{spec}; latest mcp {m['latest_version']} -> {'not allowed' if allowed else 'allowed'}",
+        f"pins mcp{spec}; latest mcp {m['latest_version']} -> {'allowed' if allowed else 'not allowed'}",
         3,
     )
     f = await gh.read_file(U, "mlb-mlops-pipeline", "pyproject.toml", 20000)
@@ -391,6 +397,45 @@ async def main() -> None:
     print(f"wrote {len(qs)} questions to {OUT}")
     for q in qs:
         print(q["id"], q["category"], "|", q["reference"])
+
+    # --- hard set: 5-6 entities per question, so one agent's context fills with tool output
+    main_qs = len(qs)
+    rel24 = {n: (await rel(n))["releases_per_year"].get("2024", 0)
+             for n in ("numpy", "pandas", "polars", "scipy", "matplotlib", "scikit-learn")}
+    win = max(rel24, key=rel24.get)
+    assert list(rel24.values()).count(rel24[win]) == 1
+    add("hard", "For each of numpy, pandas, polars, scipy, matplotlib and scikit-learn, how many non-yanked releases were published on PyPI in 2024, and which published the most?",
+        [first(win, *[k for k in rel24 if k != win])] + [number(v) for v in rel24.values()], f"2024 releases {rel24}", 6)
+    rp = {n: (await pkg(n))["requires_python"] for n in ("django", "flask", "fastapi", "httpx", "aiohttp", "celery")}
+    win = max(rp, key=lambda n: pyver(rp[n]))
+    assert [pyver(v) for v in rp.values()].count(pyver(rp[win])) == 1
+    add("hard", "Give the minimum Python version required by the latest release of each of django, flask, fastapi, httpx, aiohttp and celery. Which one requires the newest Python?",
+        [first(win, *[k for k in rp if k != win])] + contains(*sorted({".".join(map(str, pyver(v))) for v in rp.values()})),
+        f"requires_python {rp}", 6)
+    fy = {n: (await pkg(n))["first_release_date"][:4] for n in ("pytest", "ruff", "black", "mypy", "isort", "flake8")}
+    win = min(fy, key=fy.get)
+    assert list(fy.values()).count(fy[win]) == 1
+    add("hard", "In which year was each of pytest, ruff, black, mypy, isort and flake8 first released on PyPI? Which is the oldest?",
+        [first(win, *[k for k in fy if k != win])] + contains(*sorted(set(fy.values()))), f"first release years {fy}", 6)
+    langs = {r: (await gh.repo(U, r))["language"] for r in ("gpu-scheduler-platform", "rag-eval-system", "mlb-mlops-pipeline", "movie-mcp-server")}
+    npy = sum(1 for v in langs.values() if v == "Python")
+    add("hard", f"What is the primary language of each of these GitHub repos: {U}/gpu-scheduler-platform, {U}/rag-eval-system, {U}/mlb-mlops-pipeline and {U}/movie-mcp-server? How many of them are primarily Python?",
+        contains(*sorted(set(langs.values()))) + [number(npy)], f"languages {langs}, {npy} Python", 4)
+    lv = {n: (await pkg(n))["latest_version"] for n in ("anthropic", "mcp", "pydantic", "httpx", "fastapi", "uvicorn")}
+    add("hard", "What is the latest version on PyPI of each of anthropic, mcp, pydantic, httpx, fastapi and uvicorn?",
+        contains(*lv.values()), f"latest versions {lv}", 6)
+    tot = {n: (await pkg(n))["release_count"] for n in ("requests", "httpx", "aiohttp", "urllib3", "certifi")}
+    win = max(tot, key=tot.get)
+    assert list(tot.values()).count(tot[win]) == 1
+    add("hard", "How many non-yanked releases has each of requests, httpx, aiohttp, urllib3 and certifi published on PyPI in total, and which has the most?",
+        [first(win, *[k for k in tot if k != win])] + [number(v) for v in tot.values()], f"total releases {tot}", 5)
+    hard = qs[main_qs:]
+    for i, q in enumerate(hard):
+        q["id"] = f"h{i + 1:02d}"
+    HARD.write_text("".join(json.dumps(q) + "\n" for q in hard))
+    print(f"wrote {len(hard)} questions to {HARD}")
+    for q in hard:
+        print(q["id"], "|", q["reference"])
 
 
 if __name__ == "__main__":

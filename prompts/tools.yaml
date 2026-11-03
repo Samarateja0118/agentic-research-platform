@@ -1,0 +1,31 @@
+# Tool descriptions the MCP server advertises. They are prompts too: the eval gate hashes this file.
+pypi_package: >-
+  PyPI metadata for a package's LATEST release: latest_version, license, requires_python,
+  first_release_date (earliest upload ever), latest_upload_date, release_count (all non-yanked releases),
+  and runtime dependencies (extras excluded). Use this for any question about the latest version,
+  the first release, or the total number of releases.
+pypi_releases: >-
+  Release history of a PyPI package. total_releases and releases_per_year count every non-yanked release
+  (pre-releases included, dated by first upload). releases_newest_first is a truncated list (see limit),
+  so do not count it to get totals; use total_releases or releases_per_year. Pass year to list one calendar year.
+pypi_version: >-
+  Metadata for one SPECIFIC version that the question names (requires_python, dependencies, upload date).
+  Do not guess version numbers; for the latest release use pypi_package.
+github_repo: >-
+  GitHub repository metadata for owner/repo, with description, primary language, license,
+  created and pushed dates, and stars.
+github_languages: >-
+  Every language GitHub detects in a repository, with bytes and percent. The number of languages is the
+  number of keys.
+github_list_dir: >-
+  List files and folders at a path in a GitHub repository (default branch). Empty path means the root.
+github_read_file: >-
+  Read a text file (for example pyproject.toml, requirements.txt, go.mod, .github/workflows/ci.yml) from a
+  GitHub repository's default branch, truncated to max_chars.
+github_workflow_runs: >-
+  Recent GitHub Actions runs (newest first) with workflow name, event, conclusion and branch.
+github_commits: >-
+  Recent commits on the default branch (newest first), with short sha, date and first line of message.
+github_create_pull_request: >-
+  Open a DRAFT pull request that writes the given files on a new branch. Requires a human approval bound to
+  this exact payload; without one it returns the approval command to run.

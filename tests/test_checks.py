@@ -10,6 +10,7 @@ def test_contains_respects_token_boundaries():
 def test_number():
     assert run_check({"type": "number", "value": 1234}, "it has 1,234 releases.")[0]
     assert not run_check({"type": "number", "value": 12}, "version 3.12")[0]
+    assert run_check({"type": "number", "value": 4}, "GitHub detects four languages")[0]
 
 
 def test_answer_first_uses_answer_line():

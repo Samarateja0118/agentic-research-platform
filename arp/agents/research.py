@@ -18,7 +18,13 @@ CRITIC_TOOLS = ["pypi_package", "pypi_version", "pypi_releases", "github_repo", 
 
 
 def load_prompt(name: str, prompt_dir: Path | None = None) -> str:
-    return ((prompt_dir or PROMPT_DIR) / f"{name}.md").read_text()
+    base = prompt_dir or PROMPT_DIR
+    path = base / f"{name}.md"
+    if not path.exists() and (base / f"{name}.yaml").exists():
+        path = base / f"{name}.yaml"
+    if not path.exists():  # variants only override some files
+        return load_prompt(name, None) if base != PROMPT_DIR else path.read_text()
+    return path.read_text()
 
 
 def prompt_version(names: list[str], prompt_dir: Path | None = None) -> str:
@@ -29,8 +35,8 @@ def prompt_version(names: list[str], prompt_dir: Path | None = None) -> str:
     return h.hexdigest()[:12]
 
 
-MULTI_PROMPTS = ["planner", "worker", "synthesizer", "critic"]
-SINGLE_PROMPTS = ["single_agent"]
+MULTI_PROMPTS = ["planner", "worker", "synthesizer", "critic", "tools"]
+SINGLE_PROMPTS = ["single_agent", "tools"]
 
 
 @dataclass
@@ -75,7 +81,9 @@ class MultiAgentResearcher:
         revisions: int = 1,
         worker_concurrency: int = 4,
         prompt_dir: Path | None = None,
+        raw_evidence_to_synth: bool = True,
     ):
+        self.raw_evidence_to_synth = raw_evidence_to_synth
         self.llm, self.tracer = llm, tracer
         self.tb, self.critic_tb = researcher_tools, critic_tools
         self.max_subtasks, self.worker_steps, self.revisions = max_subtasks, worker_steps, revisions
@@ -118,10 +126,14 @@ class MultiAgentResearcher:
                     "hit_budget": res.hit_budget,
                 }
 
-    async def synthesize(self, question: str, reports: list[dict], problems: list[str], agent: str) -> str:
+    async def synthesize(
+        self, question: str, reports: list[dict], problems: list[str], agent: str, evidence: list[dict]
+    ) -> str:
         with self.tracer.span("agent", agent, role="synthesizer"):
             body = "\n\n".join(f"## {r['task']}\n{r['findings']}" for r in reports)
             user = f"Question: {question}\n\nFindings:\n{body}"
+            if self.raw_evidence_to_synth:  # v2: summaries lose facts, so also pass the raw tool results
+                user += f"\n\nRaw tool results (authoritative if they disagree with the findings):\n{_evidence_digest(evidence, 5000)}"
             if problems:
                 user += (
                     "\n\nA verifier found these problems in your previous draft. Fix them:\n- "
@@ -167,7 +179,7 @@ class MultiAgentResearcher:
             )
             reports = list(reports)
             evidence = [e for r in reports for e in r["evidence"]]
-            draft = await self.synthesize(question, reports, [], "synthesizer#0")
+            draft = await self.synthesize(question, reports, [], "synthesizer#0", evidence)
             critiques = []
             for rnd in range(self.revisions + 1):
                 verdict = await self.verify(question, draft, evidence, f"critic#{rnd}")
@@ -187,6 +199,7 @@ class MultiAgentResearcher:
                     reports,
                     [str(p) for p in verdict.get("problems") or []],
                     f"synthesizer#{rnd + 1}",
+                    evidence,
                 )
             return ResearchResult(draft, self.name, plan, critiques, evidence)
 

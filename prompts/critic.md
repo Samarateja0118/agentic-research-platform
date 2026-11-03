@@ -7,4 +7,4 @@ Check:
 
 Reply with JSON only:
 {{"verdict": "pass" or "revise", "problems": ["..."], "followups": ["self-contained sub-question for missing evidence"]}}
-Use "pass" when the draft is supported and complete. Use "followups" only when evidence is missing, not when the draft merely needs rewording.
+Never ask the writer to call a fact unavailable when the evidence contains it. Use "pass" when the draft is supported and complete. Use "followups" only when evidence is missing, not when the draft merely needs rewording.

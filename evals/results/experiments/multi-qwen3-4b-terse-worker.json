@@ -1,0 +1,189 @@
+{
+ "meta": {
+  "system": "multi_agent",
+  "model": "qwen3-4b-instruct-2507-q4_k_m",
+  "label": "multi agent, terse worker prompt",
+  "dataset": "evals/datasets/research.jsonl",
+  "dataset_digest": "6dcaff80da7f",
+  "prompt_version": "2c9eb93894f4",
+  "snapshot_digest": {
+   "github": "6c323645377c",
+   "pypi": "e36779c995bc"
+  },
+  "created": "2026-11-03T03:55:07Z",
+  "prices_per_mtok": {
+   "claude-opus-5-5": [
+    4.0,
+    20.0
+   ],
+   "claude-sonnet-5-5": [
+    2.0,
+    10.0
+   ],
+   "claude-haiku-5-5": [
+    0.1,
+    0.5
+   ]
+  }
+ },
+ "summary": {
+  "n": 3,
+  "pass_rate": 1.0,
+  "check_fraction": 1.0,
+  "judge_mean": 5.0,
+  "judge_ge4": 1.0,
+  "errors": 0,
+  "mean_llm_calls": 5.7,
+  "mean_tool_calls": 1.3,
+  "tool_error_rate": 0.0,
+  "mean_input_tokens": 6144,
+  "mean_output_tokens": 220,
+  "mean_wall_s": 66.1,
+  "mean_cost_at_claude-haiku-5-5": 0.00072,
+  "mean_cost_at_claude-sonnet-5-5": 0.01449,
+  "pass_by_category": {
+   "lookup": "3/3"
+  }
+ },
+ "rows": [
+  {
+   "id": "q01",
+   "category": "lookup",
+   "hops": 1,
+   "system": "multi_agent",
+   "answer": "The latest version of the rich package on PyPI is 15.0.0. The license declared in this version is MIT. Both raw tool results and findings confirm this information. No discrepancies are found between the findings and raw results. The version and license are consistent across sources.  \n\nANSWER: The latest version is 15.0.0, and the declared license is MIT.",
+   "error": null,
+   "wall_s": 108.7,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 7,
+   "tool_calls": 2,
+   "tool_errors": 0,
+   "input_tokens": 8348,
+   "output_tokens": 241,
+   "cost_usd": 0.0,
+   "llm_ms": 166913.9,
+   "trace": "evals/traces/multi-qwen3-4b-terse-worker/q01.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000955,
+   "cost_at_claude-sonnet-5-5": 0.019106,
+   "detail": {
+    "answer": "The latest version of the rich package on PyPI is 15.0.0. The license declared in this version is MIT. Both raw tool results and findings confirm this information. No discrepancies are found between the findings and raw results. The version and license are consistent across sources.  \n\nANSWER: The latest version is 15.0.0, and the declared license is MIT.",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "What is the license declared in the latest version of the rich package on PyPI?"
+     },
+     {
+      "id": "t2",
+      "question": "What is the latest version of the rich package on PyPI?"
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "pass",
+      "problems": [],
+      "followups": []
+     }
+    ],
+    "evidence_count": 2,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the latest version as 15.0.0 and the license as MIT, fully matching the reference answer with accurate and consistent information.",
+    "judge_tokens": 345
+   }
+  },
+  {
+   "id": "q02",
+   "category": "lookup",
+   "hops": 1,
+   "system": "multi_agent",
+   "answer": "The latest release of the polars package on PyPI (version 2.1.0) requires Python version >=3.11. This requirement is explicitly stated in the `requires_python` field of the package metadata. The data reflects a snapshot as of 2026-11-02, with the latest upload date being 2026-10-25. No other versions or Python requirements are specified in the findings. The minimum Python version required is 3.11.\n\nANSWER: 3.11",
+   "error": null,
+   "wall_s": 47.6,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 5,
+   "tool_calls": 1,
+   "tool_errors": 0,
+   "input_tokens": 5076,
+   "output_tokens": 206,
+   "cost_usd": 0.0,
+   "llm_ms": 45514.0,
+   "trace": "evals/traces/multi-qwen3-4b-terse-worker/q02.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000611,
+   "cost_at_claude-sonnet-5-5": 0.012212,
+   "detail": {
+    "answer": "The latest release of the polars package on PyPI (version 2.1.0) requires Python version >=3.11. This requirement is explicitly stated in the `requires_python` field of the package metadata. The data reflects a snapshot as of 2026-11-02, with the latest upload date being 2026-10-25. No other versions or Python requirements are specified in the findings. The minimum Python version required is 3.11.\n\nANSWER: 3.11",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "What is the requires_python value for the latest release of the PyPI package polars?"
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "pass",
+      "problems": [],
+      "followups": []
+     }
+    ],
+    "evidence_count": 1,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies that polars 2.1.0 requires Python >=3.11, aligns with the reference, and provides context about the source and timestamp, all matching the reference answer.",
+    "judge_tokens": 386
+   }
+  },
+  {
+   "id": "q03",
+   "category": "lookup",
+   "hops": 1,
+   "system": "multi_agent",
+   "answer": "The first release of the ruff package on PyPI was on 2022-08-27. This date is confirmed by the raw tool result for the pypi_package('ruff') query, which explicitly states the \"first_release_date\" as \"2022-08-27\". No conflicting or missing data was found. The date is consistent across both the findings and the raw tool result.  \n\nANSWER: 2022-08-27",
+   "error": null,
+   "wall_s": 42.1,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 5,
+   "tool_calls": 1,
+   "tool_errors": 0,
+   "input_tokens": 5007,
+   "output_tokens": 213,
+   "cost_usd": 0.0,
+   "llm_ms": 40155.4,
+   "trace": "evals/traces/multi-qwen3-4b-terse-worker/q03.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000607,
+   "cost_at_claude-sonnet-5-5": 0.012144,
+   "detail": {
+    "answer": "The first release of the ruff package on PyPI was on 2022-08-27. This date is confirmed by the raw tool result for the pypi_package('ruff') query, which explicitly states the \"first_release_date\" as \"2022-08-27\". No conflicting or missing data was found. The date is consistent across both the findings and the raw tool result.  \n\nANSWER: 2022-08-27",
+    "plan": [
+     {
+      "id": "t1",
+      "question": "What is the first release date (earliest upload ever) of the PyPI package ruff?"
+     }
+    ],
+    "critic": [
+     {
+      "verdict": "pass",
+      "problems": [],
+      "followups": []
+     }
+    ],
+    "evidence_count": 1,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the first release date of ruff on PyPI as 2022-08-27, matching the reference answer and providing supporting evidence from the tool result.",
+    "judge_tokens": 381
+   }
+  }
+ ]
+}
