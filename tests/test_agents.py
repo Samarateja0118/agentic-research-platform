@@ -169,3 +169,16 @@ async def test_step_budget_forces_answer():
 
     res = await run_tool_loop(Forever(), "s", "u", FakeTools(), TOOLS, "w", max_steps=3)
     assert res.hit_budget and res.text == "best effort answer"
+
+
+async def test_one_failed_worker_does_not_sink_the_run():
+    class Overflow(FakeLLM):
+        async def chat(self, system, messages, tools=None, max_tokens=1024, json_mode=False):
+            if "research worker" in system and "flask" in messages[0]["content"].split("(Context")[0]:
+                raise RuntimeError("request exceeds the available context size")
+            return await super().chat(system, messages, tools, max_tokens, json_mode)
+
+    tools = FakeTools()
+    res = await MultiAgentResearcher(Overflow(), Tracer(), tools, tools).run("fastapi or flask?")
+    assert res.answer.endswith("ANSWER: fastapi")
+    assert {c[0] for c in tools.calls} == {"worker[0]"}

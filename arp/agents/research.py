@@ -107,24 +107,33 @@ class MultiAgentResearcher:
 
     async def work(self, agent: str, task: str, question: str) -> dict:
         async with self.sem:
-            with self.tracer.span("agent", agent, role="worker", task=task):
-                user = f"Sub-question: {task}\n\n(Context, the overall question: {question})"
-                res = await run_tool_loop(
-                    self._llm(agent),
-                    self.p["worker"],
-                    user,
-                    self.tb,
-                    self.tb.tools,
-                    agent,
-                    max_steps=self.worker_steps,
-                )
+            try:
+                with self.tracer.span("agent", agent, role="worker", task=task):
+                    user = f"Sub-question: {task}\n\n(Context, the overall question: {question})"
+                    res = await run_tool_loop(
+                        self._llm(agent),
+                        self.p["worker"],
+                        user,
+                        self.tb,
+                        self.tb.tools,
+                        agent,
+                        max_steps=self.worker_steps,
+                    )
+            except Exception as exc:  # one failed worker (e.g. context overflow) must not sink the run
                 return {
                     "agent": agent,
                     "task": task,
-                    "findings": res.text,
-                    "evidence": res.evidence,
-                    "hit_budget": res.hit_budget,
+                    "evidence": [],
+                    "hit_budget": False,
+                    "findings": f"WORKER FAILED ({type(exc).__name__}); no findings for this sub-question.",
                 }
+            return {
+                "agent": agent,
+                "task": task,
+                "findings": res.text,
+                "evidence": res.evidence,
+                "hit_budget": res.hit_budget,
+            }
 
     async def synthesize(
         self, question: str, reports: list[dict], problems: list[str], agent: str, evidence: list[dict]

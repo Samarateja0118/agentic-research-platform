@@ -5,9 +5,9 @@ from __future__ import annotations
 import re
 from typing import Any
 
-
-NUMBER_WORDS = {w: i for i, w in enumerate(
-    "zero one two three four five six seven eight nine ten eleven twelve".split())}
+NUMBER_WORDS = {
+    w: i for i, w in enumerate("zero one two three four five six seven eight nine ten eleven twelve".split())
+}
 
 
 def normalize(text: str) -> str:

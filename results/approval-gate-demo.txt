@@ -1,0 +1,8 @@
+ops -> github_create_pull_request: error=True: human approval required: run `arp approve b1ae87d157fb` and retry
+researcher -> github_create_pull_request: error=True: permission denied: tool 'github_create_pull_request' is denied for 'researcher'
+ops, after approving a different patch: error=True: human approval required: run `arp approve b1ae87d157fb` and retry
+
+audit log:
+{"ts": 1793687031.839, "principal": "ops", "tool": "github_create_pull_request", "args": {"owner": "Samarateja0118", "repo": "agentic-research-platform", "branch": "ops/fix-b08"}, "decision": "pending_approval", "reason": "no human approval for payload b1ae87d157fb", "approval_request": "b1ae87d157fb"}
+{"ts": 1793687032.567, "principal": "researcher", "tool": "github_create_pull_request", "args": {"owner": "Samarateja0118", "repo": "agentic-research-platform", "branch": "ops/fix-b08"}, "decision": "deny", "reason": "tool 'github_create_pull_request' is denied for 'researcher'", "rule": "deny_tools"}
+{"ts": 1793687033.321, "principal": "ops", "tool": "github_create_pull_request", "args": {"owner": "Samarateja0118", "repo": "agentic-research-platform", "branch": "ops/fix-b08"}, "decision": "pending_approval", "reason": "no human approval for payload b1ae87d157fb", "approval_request": "b1ae87d157fb"}

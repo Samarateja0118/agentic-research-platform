@@ -1,0 +1,254 @@
+{
+ "meta": {
+  "system": "single_agent",
+  "model": "qwen3-4b-instruct-2507-q4_k_m",
+  "label": "single agent, hard set",
+  "dataset": "evals/datasets/research-hard.jsonl",
+  "dataset_digest": "391a5ba47a46",
+  "prompt_version": "0f95abea3954",
+  "snapshot_digest": {
+   "github": "5f09e4d57a87",
+   "pypi": "e36779c995bc"
+  },
+  "created": "2026-11-03T06:02:06Z",
+  "prices_per_mtok": {
+   "claude-opus-5-5": [
+    4.0,
+    20.0
+   ],
+   "claude-sonnet-5-5": [
+    2.0,
+    10.0
+   ],
+   "claude-haiku-5-5": [
+    0.1,
+    0.5
+   ]
+  }
+ },
+ "summary": {
+  "n": 6,
+  "pass_rate": 1.0,
+  "check_fraction": 1.0,
+  "judge_mean": 5.0,
+  "judge_ge4": 1.0,
+  "errors": 0,
+  "mean_llm_calls": 2.0,
+  "mean_tool_calls": 5.5,
+  "tool_error_rate": 0.0,
+  "mean_input_tokens": 4592,
+  "mean_output_tokens": 252,
+  "mean_wall_s": 88.1,
+  "mean_cost_at_claude-haiku-5-5": 0.00059,
+  "mean_cost_at_claude-sonnet-5-5": 0.0117,
+  "pass_by_category": {
+   "hard": "6/6"
+  }
+ },
+ "rows": [
+  {
+   "id": "h01",
+   "category": "hard",
+   "hops": 6,
+   "system": "single_agent",
+   "answer": "The number of non-yanked releases in 2024 for each package is as follows:  \n- numpy: 11  \n- pandas: 4  \n- polars: 48  \n- scipy: 10  \n- matplotlib: 11  \n- scikit-learn: 9  \n\nThe package that published the most releases in 2024 is polars, with 48 releases.  \n\nANSWER: polars with 48 releases",
+   "error": null,
+   "wall_s": 208.7,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 6,
+   "tool_errors": 0,
+   "input_tokens": 7666,
+   "output_tokens": 292,
+   "cost_usd": 0.0,
+   "llm_ms": 207942.6,
+   "trace": "evals/traces/hard-single-qwen3-4b/h01.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000913,
+   "cost_at_claude-sonnet-5-5": 0.018252,
+   "detail": {
+    "answer": "The number of non-yanked releases in 2024 for each package is as follows:  \n- numpy: 11  \n- pandas: 4  \n- polars: 48  \n- scipy: 10  \n- matplotlib: 11  \n- scikit-learn: 9  \n\nThe package that published the most releases in 2024 is polars, with 48 releases.  \n\nANSWER: polars with 48 releases",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 6,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly provides all the requested facts from the reference answer, including the exact number of releases for each package and accurately identifies polars as the package with the most releases.",
+    "judge_tokens": 441
+   }
+  },
+  {
+   "id": "h02",
+   "category": "hard",
+   "hops": 6,
+   "system": "single_agent",
+   "answer": "The minimum Python version requirements for the latest releases are:\n- Django: >=3.12\n- Flask: >=3.9\n- FastAPI: >=3.10\n- HTTPX: >=3.8\n- aiohttp: >=3.10\n- Celery: >=3.9\n\nThe newest requirement is Django's >=3.12.\n\nANSWER: django",
+   "error": null,
+   "wall_s": 65.3,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 6,
+   "tool_errors": 0,
+   "input_tokens": 4260,
+   "output_tokens": 215,
+   "cost_usd": 0.0,
+   "llm_ms": 64481.2,
+   "trace": "evals/traces/hard-single-qwen3-4b/h02.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000534,
+   "cost_at_claude-sonnet-5-5": 0.01067,
+   "detail": {
+    "answer": "The minimum Python version requirements for the latest releases are:\n- Django: >=3.12\n- Flask: >=3.9\n- FastAPI: >=3.10\n- HTTPX: >=3.8\n- aiohttp: >=3.10\n- Celery: >=3.9\n\nThe newest requirement is Django's >=3.12.\n\nANSWER: django",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 6,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies all minimum Python version requirements as specified in the reference and accurately concludes that Django requires the newest Python version.",
+    "judge_tokens": 419
+   }
+  },
+  {
+   "id": "h03",
+   "category": "hard",
+   "hops": 6,
+   "system": "single_agent",
+   "answer": "The first release years for each package on PyPI are:  \n- pytest: 2010  \n- ruff: 2022  \n- black: 2018  \n- mypy: 2009  \n- isort: 2013  \n- flake8: 2010  \n\nThe oldest is mypy, first released in 2009.  \n\nANSWER: mypy, 2009",
+   "error": null,
+   "wall_s": 65.8,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 6,
+   "tool_errors": 0,
+   "input_tokens": 4080,
+   "output_tokens": 230,
+   "cost_usd": 0.0,
+   "llm_ms": 65032.1,
+   "trace": "evals/traces/hard-single-qwen3-4b/h03.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000523,
+   "cost_at_claude-sonnet-5-5": 0.01046,
+   "detail": {
+    "answer": "The first release years for each package on PyPI are:  \n- pytest: 2010  \n- ruff: 2022  \n- black: 2018  \n- mypy: 2009  \n- isort: 2013  \n- flake8: 2010  \n\nThe oldest is mypy, first released in 2009.  \n\nANSWER: mypy, 2009",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 6,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly provides all the first release years as in the reference answer and accurately identifies mypy as the oldest, first released in 2009.",
+    "judge_tokens": 437
+   }
+  },
+  {
+   "id": "h04",
+   "category": "hard",
+   "hops": 4,
+   "system": "single_agent",
+   "answer": "The primary languages of the repositories are as follows:  \n- **gpu-scheduler-platform**: Go (91.7%)  \n- **rag-eval-system**: Python (97.7%)  \n- **mlb-mlops-pipeline**: Python (100.0%)  \n- **movie-mcp-server**: Python (82.2%)  \n\nThree out of the four repositories are primarily Python.  \n\nANSWER: Three of the repositories are primarily Python.",
+   "error": null,
+   "wall_s": 50.4,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 4,
+   "tool_errors": 0,
+   "input_tokens": 3454,
+   "output_tokens": 243,
+   "cost_usd": 0.0,
+   "llm_ms": 48998.3,
+   "trace": "evals/traces/hard-single-qwen3-4b/h04.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000467,
+   "cost_at_claude-sonnet-5-5": 0.009338,
+   "detail": {
+    "answer": "The primary languages of the repositories are as follows:  \n- **gpu-scheduler-platform**: Go (91.7%)  \n- **rag-eval-system**: Python (97.7%)  \n- **mlb-mlops-pipeline**: Python (100.0%)  \n- **movie-mcp-server**: Python (82.2%)  \n\nThree out of the four repositories are primarily Python.  \n\nANSWER: Three of the repositories are primarily Python.",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 4,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly identifies the primary language for each repository and accurately states that three of them are primarily Python, matching the reference answer in both details and conclusion.",
+    "judge_tokens": 443
+   }
+  },
+  {
+   "id": "h05",
+   "category": "hard",
+   "hops": 6,
+   "system": "single_agent",
+   "answer": "The latest versions on PyPI for the specified packages are:  \n- anthropic: 2.4.0  \n- mcp: 2.3.0  \n- pydantic: 2.14.2  \n- httpx: 0.28.1  \n- fastapi: 0.162.0  \n- uvicorn: 0.54.0  \n\nThese versions are based on the PyPI snapshot as of 2026-11-02.  \n\nANSWER: The latest versions are anthropic: 2.4.0, mcp: 2.3.0, pydantic: 2.14.2, httpx: 0.28.1, fastapi: 0.162.0, and uvicorn: 0.54.0.",
+   "error": null,
+   "wall_s": 84.1,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 6,
+   "tool_errors": 0,
+   "input_tokens": 4253,
+   "output_tokens": 317,
+   "cost_usd": 0.0,
+   "llm_ms": 83308.2,
+   "trace": "evals/traces/hard-single-qwen3-4b/h05.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000584,
+   "cost_at_claude-sonnet-5-5": 0.011676,
+   "detail": {
+    "answer": "The latest versions on PyPI for the specified packages are:  \n- anthropic: 2.4.0  \n- mcp: 2.3.0  \n- pydantic: 2.14.2  \n- httpx: 0.28.1  \n- fastapi: 0.162.0  \n- uvicorn: 0.54.0  \n\nThese versions are based on the PyPI snapshot as of 2026-11-02.  \n\nANSWER: The latest versions are anthropic: 2.4.0, mcp: 2.3.0, pydantic: 2.14.2, httpx: 0.28.1, fastapi: 0.162.0, and uvicorn: 0.54.0.",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 6,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant's answer matches the reference answer exactly in all facts and conclusions.",
+    "judge_tokens": 503
+   }
+  },
+  {
+   "id": "h06",
+   "category": "hard",
+   "hops": 5,
+   "system": "single_agent",
+   "answer": "The total number of non-yanked releases for each package on PyPI is as follows:  \n- requests: 158 releases  \n- httpx: 76 releases  \n- aiohttp: 307 releases  \n- urllib3: 101 releases  \n- certifi: 77 releases  \n\nThe package with the most releases is aiohttp, with 307 releases.  \n\nANSWER: aiohttp has the most non-yanked releases with 307 total.",
+   "error": null,
+   "wall_s": 54.6,
+   "pass": true,
+   "check_fraction": 1.0,
+   "failed_checks": [],
+   "llm_calls": 2,
+   "tool_calls": 5,
+   "tool_errors": 0,
+   "input_tokens": 3840,
+   "output_tokens": 215,
+   "cost_usd": 0.0,
+   "llm_ms": 53840.7,
+   "trace": "evals/traces/hard-single-qwen3-4b/h06.jsonl",
+   "cost_at_claude-haiku-5-5": 0.000491,
+   "cost_at_claude-sonnet-5-5": 0.00983,
+   "detail": {
+    "answer": "The total number of non-yanked releases for each package on PyPI is as follows:  \n- requests: 158 releases  \n- httpx: 76 releases  \n- aiohttp: 307 releases  \n- urllib3: 101 releases  \n- certifi: 77 releases  \n\nThe package with the most releases is aiohttp, with 307 releases.  \n\nANSWER: aiohttp has the most non-yanked releases with 307 total.",
+    "plan": [],
+    "critic": [],
+    "evidence_count": 5,
+    "notes": []
+   },
+   "judge": {
+    "score": 5,
+    "reason": "The assistant correctly provides all the requested totals and accurately identifies aiohttp as having the most releases, matching the reference answer exactly.",
+    "judge_tokens": 421
+   }
+  }
+ ]
+}

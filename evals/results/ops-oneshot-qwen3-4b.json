@@ -1,0 +1,169 @@
+{
+ "meta": {
+  "mode": "oneshot",
+  "model": "qwen3-4b-instruct-2507-q4_k_m"
+ },
+ "summary": {
+  "n": 8,
+  "fixed": 3,
+  "fix_rate": 0.375,
+  "mean_steps": 1.0,
+  "violations": 4,
+  "mean_input_tokens": 1430,
+  "mean_wall_s": 68.0
+ },
+ "rows": [
+  {
+   "bug": "b01",
+   "mode": "oneshot",
+   "fixed": false,
+   "diff": "",
+   "root_cause": "",
+   "steps": 1,
+   "tool_calls": 0,
+   "violations": [
+    "edit not applied: 'path'"
+   ],
+   "hit_budget": false,
+   "tests_after": "FAILED tests/test_money.py::test_parse_thousands_and_symbol - decimal.Invalid...",
+   "input_tokens": 1701,
+   "output_tokens": 1200,
+   "wall_s": 243.2,
+   "kind": "wrong literal",
+   "cost_at_claude-haiku-5-5": 0.00077,
+   "cost_at_claude-sonnet-5-5": 0.015402
+  },
+  {
+   "bug": "b02",
+   "mode": "oneshot",
+   "fixed": true,
+   "diff": "--- a/ledger/money.py\n+++ b/ledger/money.py\n@@ -15,7 +15,7 @@\n \n \n def round_cents(value: Decimal) -> Decimal:\n-    return value.quantize(CENT, rounding=ROUND_HALF_EVEN)\n+    return value.quantize(CENT, rounding=ROUND_HALF_UP)\n \n \n def format_amount(value: Decimal) -> str:\n",
+   "root_cause": "The tests require rounding to the nearest cent using 'round half up' (e.g., 2.345 \u2192 2.35), but the current implementation uses ROUND_HALF_EVEN (banker's rounding), which rounds 2.345 to 2.34. Changing to ROUND_HALF_UP ensures correct behavior as specified in the test cases.",
+   "steps": 1,
+   "tool_calls": 0,
+   "violations": [],
+   "hit_budget": false,
+   "tests_after": ".......................                                                  [100%]",
+   "input_tokens": 1805,
+   "output_tokens": 137,
+   "wall_s": 52.0,
+   "kind": "wrong constant",
+   "cost_at_claude-haiku-5-5": 0.000249,
+   "cost_at_claude-sonnet-5-5": 0.00498
+  },
+  {
+   "bug": "b03",
+   "mode": "oneshot",
+   "fixed": false,
+   "diff": "",
+   "root_cause": "The condition `due.weekday() > 5` incorrectly excludes Friday (weekday 4) and only handles Saturday (5) and Sunday (6). Since weekends are Saturday (5) and Sunday (6), the condition should be `>= 5` to properly move due dates to the next Monday when they fall on a weekend.",
+   "steps": 1,
+   "tool_calls": 0,
+   "violations": [
+    "edit not applied: old text not found exactly once"
+   ],
+   "hit_budget": false,
+   "tests_after": "FAILED tests/test_dates.py::test_due_date_weekend_moves_to_monday - assert da...",
+   "input_tokens": 1374,
+   "output_tokens": 208,
+   "wall_s": 50.6,
+   "kind": "off-by-one",
+   "cost_at_claude-haiku-5-5": 0.000241,
+   "cost_at_claude-sonnet-5-5": 0.004828
+  },
+  {
+   "bug": "b04",
+   "mode": "oneshot",
+   "fixed": true,
+   "diff": "--- a/ledger/dates.py\n+++ b/ledger/dates.py\n@@ -23,4 +23,4 @@\n \n \n def days_overdue(due: date, today: date) -> int:\n-    return (today - due).days\n+    return max((today - due).days, 0)\n",
+   "root_cause": "The function `days_overdue` returns a negative value when `today` is before `due`, but the test expects 0 for a non-overdue case. The fix ensures the result is never negative by taking the maximum with 0.",
+   "steps": 1,
+   "tool_calls": 0,
+   "violations": [],
+   "hit_budget": false,
+   "tests_after": ".......................                                                  [100%]",
+   "input_tokens": 1344,
+   "output_tokens": 103,
+   "wall_s": 35.4,
+   "kind": "missing clamp",
+   "cost_at_claude-haiku-5-5": 0.000186,
+   "cost_at_claude-sonnet-5-5": 0.003718
+  },
+  {
+   "bug": "b05",
+   "mode": "oneshot",
+   "fixed": false,
+   "diff": "",
+   "root_cause": "The test expects tax to be calculated on the subtotal after discount, but the current code applies tax to the original subtotal instead. This causes the tax amount to be incorrect (12.50 instead of 10.00).",
+   "steps": 1,
+   "tool_calls": 0,
+   "violations": [
+    "edit not applied: old text not found exactly once"
+   ],
+   "hit_budget": false,
+   "tests_after": "FAILED tests/test_invoice.py::test_discount_before_tax - AssertionError: asse...",
+   "input_tokens": 1343,
+   "output_tokens": 136,
+   "wall_s": 40.2,
+   "kind": "logic order",
+   "cost_at_claude-haiku-5-5": 0.000202,
+   "cost_at_claude-sonnet-5-5": 0.004046
+  },
+  {
+   "bug": "b06",
+   "mode": "oneshot",
+   "fixed": true,
+   "diff": "--- a/ledger/invoice.py\n+++ b/ledger/invoice.py\n@@ -23,7 +23,7 @@\n     discount_pct: Decimal = Decimal(\"0\")\n \n     def add(self, item: LineItem) -> None:\n-        if item.quantity < 0:\n+        if item.quantity <= 0:\n             raise ValueError(\"quantity must be positive\")\n         self.items.append(item)\n \n",
+   "root_cause": "The test `test_rejects_zero_quantity` expects the invoice to reject a zero quantity, but the current code only checks for negative quantities. Zero quantity was not being rejected, so the test failed. Changing the condition from `< 0` to `<= 0` ensures zero is also rejected.",
+   "steps": 1,
+   "tool_calls": 0,
+   "violations": [],
+   "hit_budget": false,
+   "tests_after": ".......................                                                  [100%]",
+   "input_tokens": 1213,
+   "output_tokens": 131,
+   "wall_s": 38.0,
+   "kind": "boundary",
+   "cost_at_claude-haiku-5-5": 0.000187,
+   "cost_at_claude-sonnet-5-5": 0.003736
+  },
+  {
+   "bug": "b07",
+   "mode": "oneshot",
+   "fixed": false,
+   "diff": "--- a/ledger/csvio.py\n+++ b/ledger/csvio.py\n@@ -14,7 +14,7 @@\n     if reader.fieldnames is None:\n         return []\n     reader.fieldnames = [f.strip() for f in reader.fieldnames]\n-    missing = [c for c in REQUIRED if c not in reader.fieldnames]\n+    missing = [c for c in (c.lower() for c in REQUIRED) if c.lower() not in [f.strip().lower() for f in reader.fieldnames]]\n     if missing:\n         raise ValueError(f\"missing columns: {missing}\")\n     items = []\n",
+   "root_cause": "The test data uses case-insensitive headers (e.g., 'description' vs 'Description'), but the code compares fieldnames in their original case, causing a mismatch. The missing columns error occurs because 'description' is not found in the fieldnames list even though the header is 'Description'. The fix makes the comparison case-insensitive by converting both REQUIRED and fieldnames to lowercase.",
+   "steps": 1,
+   "tool_calls": 0,
+   "violations": [],
+   "hit_budget": false,
+   "tests_after": "FAILED tests/test_csvio.py::test_reads_rows_and_skips_blank - KeyError: 'desc...",
+   "input_tokens": 1411,
+   "output_tokens": 163,
+   "wall_s": 46.5,
+   "kind": "case handling",
+   "cost_at_claude-haiku-5-5": 0.000223,
+   "cost_at_claude-sonnet-5-5": 0.004452
+  },
+  {
+   "bug": "b08",
+   "mode": "oneshot",
+   "fixed": false,
+   "diff": "",
+   "root_cause": "The truncate function was cutting off 2 characters instead of 3 when the width is exactly the required length, leading to an incorrect output like 'abcde...' instead of 'abcdef...'. The fix adjusts the slice to remove 3 characters (including the '...' placeholder), ensuring the total length matches the specified width.",
+   "steps": 1,
+   "tool_calls": 0,
+   "violations": [
+    "edit not applied: old text not found exactly once"
+   ],
+   "hit_budget": false,
+   "tests_after": "FAILED tests/test_textutil.py::test_truncate_exact_width - AssertionError: as...",
+   "input_tokens": 1250,
+   "output_tokens": 122,
+   "wall_s": 37.8,
+   "kind": "off-by-one",
+   "cost_at_claude-haiku-5-5": 0.000186,
+   "cost_at_claude-sonnet-5-5": 0.00372
+  }
+ ]
+}

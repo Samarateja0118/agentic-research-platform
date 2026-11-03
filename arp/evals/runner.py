@@ -25,6 +25,7 @@ from ..obs.trace import Tracer
 from .checks import score
 from .judge import judge
 
+MAX_SUBTASKS = int(os.environ.get("ARP_MAX_SUBTASKS", "4"))
 REF_PRICES = ["claude-haiku-5-5", "claude-sonnet-5-5"]
 
 
@@ -50,9 +51,9 @@ async def run_one(
                 run_span.set(tools=tb.tools)
                 if system == "multi_agent":
                     async with MCPToolbox("critic", tracer) as ctb:
-                        result = await MultiAgentResearcher(llm, tracer, tb, ctb, prompt_dir=prompt_dir).run(
-                            q["question"]
-                        )
+                        result = await MultiAgentResearcher(
+                            llm, tracer, tb, ctb, prompt_dir=prompt_dir, max_subtasks=MAX_SUBTASKS
+                        ).run(q["question"])
                 else:
                     result = await SingleAgentResearcher(llm, tracer, tb, prompt_dir=prompt_dir).run(
                         q["question"]
